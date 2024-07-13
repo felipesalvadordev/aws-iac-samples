@@ -2,12 +2,12 @@ provider "aws" {
   region = "us-east-1"
 }
 
-variable "bucketname" {
-  type = "string"
+variable "bucket_name" {
+    type = string
 }
 
 resource "aws_s3_bucket" "static_site_bucket" {
-    bucket = "static-site-${var.bucketname}"
+    bucket = "static-site-${var.bucket_name}"
     
     website {
       index_document = "index.html"
