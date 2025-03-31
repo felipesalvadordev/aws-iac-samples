@@ -43,7 +43,7 @@ variable "instance_type" {
 }
 
 variable "user_data" {
-  description = "boostrap script for apache"
+  description = "boostrap script for nginx"
   type        = string
   default     = <<-EOF
     #!/bin/bash
