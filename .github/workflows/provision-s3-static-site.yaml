@@ -1,16 +1,9 @@
 name: Create S3 Static Site
 
 on:
-    workflow_dispatch:
-    push:
-      branches: [ "main" ]
-    pull_request:
-      branches: [ "main" ]
-
     issues:
         types: 
             - opened
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
