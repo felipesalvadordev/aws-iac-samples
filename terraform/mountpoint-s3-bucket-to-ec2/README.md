@@ -8,6 +8,6 @@ Mount an AWS S3 bucket into an EC2.
 - EC2 Key Pair: Key pair used for EC2 instance.
 - EC2 Instance with Amazon Linux: Instance where the S3 bucket will be mounted.
 
-![alt text](image.png)
+![alt text](infra.png)
 
 https://www.linkedin.com/pulse/mounting-aws-s3-buckets-ec2-instances-using-terraform-todd-bernson/
