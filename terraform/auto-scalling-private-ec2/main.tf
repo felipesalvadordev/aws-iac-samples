@@ -63,7 +63,7 @@ resource "aws_internet_gateway" "internet_gateway" {
 }
 
 resource "aws_eip" "elastic_ip" {
-  vpc        = true
+  vpc = true
   depends_on = [aws_internet_gateway.internet_gateway]
   tags = {
     Name = "igw_eip"
@@ -139,19 +139,51 @@ resource "aws_launch_template" "launch_template" {
   }
 }
 
-resource "aws_autoscaling_group" "auto_scaling_group" {
+resource "aws_autoscaling_group" "autoscale" {
   desired_capacity    = 2
   max_size            = 5
   min_size            = 2
   vpc_zone_identifier = [for i in aws_subnet.private_subnet[*] : i.id]
   target_group_arns   = [aws_lb_target_group.lb_target_group.arn]
   name                = "ec2-asg"
+  health_check_type   = "EC2"
 
   launch_template {
     id      = aws_launch_template.launch_template.id
     version = aws_launch_template.launch_template.latest_version
   }
+
+  lifecycle { 
+    ignore_changes = [desired_capacity]
+  }
 }
+
+# Auto Scaling Policies
+resource "aws_autoscaling_policy" "scale_down" {
+  name                   = "test_scale_down"
+  autoscaling_group_name = aws_autoscaling_group.autoscale.name
+  adjustment_type        = "ChangeInCapacity"
+  scaling_adjustment     = -1
+  cooldown               = 120
+}
+
+resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
+  alarm_description   = "Monitors CPU utilization"
+  alarm_actions       = [aws_autoscaling_policy.scale_down.arn]
+  alarm_name          = "test_scale_down"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  namespace           = "AWS/EC2"
+  metric_name         = "CPUUtilization"
+  threshold           = "25"
+  evaluation_periods  = "5"
+  period              = "30"
+  statistic           = "Average"
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.autoscale.name
+  }
+}
+
 
 # ALB Info
 resource "aws_lb" "alb" {
