@@ -6,4 +6,5 @@
 
 ![ec2-auto-scalling](https://github.com/user-attachments/assets/0560a737-3595-4f1e-8314-2615c58e1555)
 
-https://medium.com/nerd-for-tech/auto-scaling-private-ec2-instances-with-terraform-9a7b5a079b72
+https://medium.com/nerd-for-tech/auto-scaling-private-ec2-instances-with-terraform-9a7b5a079b72  
+https://spacelift.io/blog/terraform-autoscaling-group
