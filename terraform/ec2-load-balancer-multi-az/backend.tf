@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "tf-aws-architecture"
-    key    = "terraform.tfstate"
+    key    = "path/to/statefile"
     region = "us-east-1"
   }
 }
