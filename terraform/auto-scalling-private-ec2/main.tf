@@ -1,6 +1,5 @@
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
-
   tags = {
     Name = "new-vpc"
   }
@@ -63,7 +62,6 @@ resource "aws_internet_gateway" "internet_gateway" {
 }
 
 resource "aws_eip" "elastic_ip" {
-  vpc = true
   depends_on = [aws_internet_gateway.internet_gateway]
   tags = {
     Name = "igw_eip"
