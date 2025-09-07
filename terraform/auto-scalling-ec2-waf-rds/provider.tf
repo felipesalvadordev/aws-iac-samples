@@ -1,6 +1,6 @@
 provider "aws" {
   region              = var.region
-  allowed_account_ids = [434605749312]
+  allowed_account_ids = [805714761459]
   default_tags {
     tags = {
       environment = var.env

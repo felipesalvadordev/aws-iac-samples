@@ -33,7 +33,6 @@ variable "ami_id" {
 }
 
 
-
 #alb 
 variable "alb_sg_ingress_rules" {
   type    = any

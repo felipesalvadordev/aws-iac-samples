@@ -11,8 +11,6 @@ resource "aws_vpc" "main" {
 }
 resource "aws_eip" "nat" {
   for_each = var.public_subnets
-
-  vpc = tobool(true)
 }
 
 resource "aws_nat_gateway" "nat" {
@@ -74,8 +72,8 @@ resource "aws_subnet" "private" {
     Name = "${var.env}-private-${each.key}"
   }
 }
-#Internet Gateway and Routing
 
+#Internet Gateway and Routing
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
