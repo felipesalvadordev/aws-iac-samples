@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Create ec2 multi az'
 
 on:
   workflow_dispatch:
@@ -34,7 +34,10 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}      
 
     - name: Terraform Init
-      run: terraform init
+      run: |
+        cd terraform
+        cd ec2-load-balancer-multi-az
+        terraform init
 
     - name: Terraform Format
       run: terraform fmt -check
