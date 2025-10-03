@@ -29,7 +29,7 @@ variable "az_count" {
 
 variable "app_image" {
     description = "Docker image to run in the ECS cluster"
-    default = "bradfordhamilton/crystal_blockchain:latest"
+    default = "centos:8"
 }
 
 variable "app_port" {
@@ -49,10 +49,10 @@ variable "health_check_path" {
 
 variable "fargate_cpu" {
     description = "CPU allocated to each Fargate task (in vCPU units)"
-    default = "768"
+    default = "256"
 }
 
 variable "fargate_memory" {
     description = "Fargate instance memory to provision (in MiB)"
-    default = "1536"
+    default = "512"
 }

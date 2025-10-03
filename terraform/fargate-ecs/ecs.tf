@@ -4,18 +4,6 @@ resource "aws_ecs_cluster" "main" {
     name = "cb-cluster"
 }
 
-data "template_file" "cb_app" {
-    template = file("./templates/ecs/cb_app.json.tpl")
-
-    vars = {
-        app_image      = var.app_image
-        app_port       = var.app_port
-        fargate_cpu    = var.fargate_cpu
-        fargate_memory = var.fargate_memory
-        aws_region     = var.aws_region
-    }
-}
-
 resource "aws_ecs_task_definition" "app" {
     family                   = "cb-app-task"
     execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
@@ -23,10 +11,24 @@ resource "aws_ecs_task_definition" "app" {
     requires_compatibilities = ["FARGATE"]
     cpu                      = var.fargate_cpu
     memory                   = var.fargate_memory
-    container_definitions    = data.template_file.cb_app.rendered
+    container_definitions = jsonencode([
+    {
+      name      = "cb-app"
+      image     = var.app_image,
+      essential = true
+      cpu       = var.fargate_cpu,
+      memory    = var.fargate_memory
+      portMappings = [
+        {
+          containerPort = var.app_port,
+          hostPort      = var.app_port,
+        }
+      ]
+    }
+  ])
 }
 
-resource "aws_ecs_service" "main" {
+resource "aws_ecs_service" "ecs_service" {
     name            = "cb-service"
     cluster         = aws_ecs_cluster.main.id
     task_definition = aws_ecs_task_definition.app.arn
