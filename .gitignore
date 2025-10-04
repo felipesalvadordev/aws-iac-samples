@@ -1,1 +1,3 @@
 terraform/auto-scalling-ec2-waf-rds/.terraform.lock.hcl
+terraform/auto-scalling-ec2-wat-53-rds/.terraform.lock.hcl
+terraform/auto-scalling-ec2-wat-53-rds/.gitignore
