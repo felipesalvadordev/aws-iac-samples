@@ -15,7 +15,7 @@ A user or client sends a request to the application’s front end.
 The request first goes to AWS Route 53, which handles DNS resolution and directs traffic to the correct endpoint.
 
 3. SSL/TLS Termination via AWS Certificate Manager 	
-AWS Certificate Manager provides SSL/TLS certificates for secure communication between the client and the application.
+AWS Certificate Manager provides SSL/TLS certificates for secure communication between the client and the application (not used in this example to avoid domain registration costs).
 
 4. Traffic Filtering via AWS WAF
 AWS Web Application Firewall (WAF) inspects incoming requests for security threats and filters malicious traffic.
