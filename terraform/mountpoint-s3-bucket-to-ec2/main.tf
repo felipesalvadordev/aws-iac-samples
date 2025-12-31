@@ -135,7 +135,7 @@ module "vpc" {
   enable_dns_support                              = true
   enable_flow_log                                 = true
   enable_nat_gateway                              = true
-  flow_log_cloudwatch_log_group_retention_in_days = 7
+  flow_log_cloudwatch_log_group_retention_in_days = 1
   flow_log_max_aggregation_interval               = 60
   name                                            = var.environment
   one_nat_gateway_per_az                          = false
