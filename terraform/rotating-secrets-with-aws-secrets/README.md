@@ -242,3 +242,6 @@ docker-compose down -v
 - Don't disable encryption
 - Don't extend rotation intervals beyond 90 days
 - Don't grant overly permissive IAM policies
+
+## References  
+https://dev.to/dhoang1905/managing-and-rotating-secrets-with-aws-secrets-manager-eci
