@@ -123,5 +123,7 @@ terraform destroy -auto-approve
 # Stop LocalStack
 docker-compose down
 ```
+## Reference:  
+https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/3e556757f85bd39374da041c697f7c4e9c2d0448/lessons/day23/aws-lamda-monitoring
 
 
