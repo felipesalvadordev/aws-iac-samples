@@ -9,6 +9,5 @@ List of projects:
 [Deploy with Fargate ECS](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/fargate-ecs)  
 [Data Streaming with Kinesis, Lambda, Firehose and S3](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/kinesis-firehose-s3)  
 [Mount an AWS S3 bucket into an EC2](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/mountpoint-s3-bucket-to-ec2)  
-[Creating AWS S3](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/s3-bucket-static)  
 [VPC Peering Connection between two VPCs in same region](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/vpc-peering)  
 
