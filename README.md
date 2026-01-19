@@ -10,4 +10,7 @@ List of projects:
 [Data Streaming with Kinesis, Lambda, Firehose and S3](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/kinesis-firehose-s3)  
 [Mount an AWS S3 bucket into an EC2](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/mountpoint-s3-bucket-to-ec2)  
 [VPC Peering Connection between two VPCs in same region](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/vpc-peering)  
+[CloudWatch Monitoring + S3 + Lambda (Image Processor)](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/cloudwatch-monitoring-s3-lambda)  
+[Secrets Manager Secret Rotation with Lambda](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/rotating-secrets-with-aws-secrets)
+
 
