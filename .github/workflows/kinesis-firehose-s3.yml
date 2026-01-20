@@ -1,4 +1,4 @@
-name: "Terraform — kinesis-firehose-s3"
+name: "Kinesis-firehose-s3"
 
 on:
   workflow_dispatch:
