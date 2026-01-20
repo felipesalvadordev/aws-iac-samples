@@ -3,8 +3,12 @@ name: "Terraform — kinesis-firehose-s3"
 on:
   workflow_dispatch:
     inputs:
-      approve:
-        description: 'Set to "yes" to run terraform apply (default: no)'
+      action:
+        description: 'Ação a executar: plan, apply ou destroy (default: plan)'
+        required: false
+        default: 'plan'
+      confirm:
+        description: 'Defina "yes" para confirmar operações destrutivas (apply/destroy)'
         required: false
         default: 'no'
 
