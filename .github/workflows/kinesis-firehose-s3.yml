@@ -1,4 +1,4 @@
-name: "Kinesis-firehose-s3"
+name: "Create Kinesis Firehose S3 Data Pipeline"
 
 on:
   workflow_dispatch:
