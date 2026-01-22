@@ -1,0 +1,86 @@
+name: "Create Kinesis Firehose S3 Data Pipeline"
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Ação a executar: plan, apply ou destroy (default: plan)'
+        required: false
+        default: 'plan'
+      confirm:
+        description: 'Defina "yes" para confirmar operações destrutivas (apply/destroy)'
+        required: false
+        default: 'no'
+
+permissions: read-all
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      TF_IN_AUTOMATION: "true"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: '1.6.0'
+
+      - name: Cache Terraform directory
+        uses: actions/cache@v4
+        with:
+          path: |
+            terraform/kinesis-firehose-s3/.terraform
+            terraform/kinesis-firehose-s3/.terraform.lock.hcl
+          key: ${{ runner.os }}-tf-${{ hashFiles('terraform/kinesis-firehose-s3/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-tf-
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Terraform Init
+        working-directory: terraform/kinesis-firehose-s3
+        run: terraform init -input=false
+
+      - name: Terraform Validate
+        working-directory: terraform/kinesis-firehose-s3
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: terraform/kinesis-firehose-s3
+        run: |
+          terraform plan -input=false -out=tfplan
+          terraform show -no-color tfplan > plan.txt
+
+      - name: Upload plan artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: terraform/kinesis-firehose-s3/plan.txt
+
+      - name: Terraform Apply (manual approval required)
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.approve == 'yes' || github.event.inputs.approve == 'true') }}
+        working-directory: terraform/kinesis-firehose-s3
+        run: terraform apply -input=false -auto-approve tfplan
+
+      - name: Upload terraform outputs (if applied)
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.approve == 'yes' || github.event.inputs.approve == 'true') }}
+        working-directory: terraform/kinesis-firehose-s3
+        run: |
+          terraform output -json > outputs.json
+        continue-on-error: true
+
+      - name: Upload outputs artifact
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.approve == 'yes' || github.event.inputs.approve == 'true') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tf-outputs
+          path: terraform/kinesis-firehose-s3/outputs.json
