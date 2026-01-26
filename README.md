@@ -5,7 +5,7 @@ All will be create with Infrastructure As Code tools such as Terraform.
 
 List of projects:  
 [Dynamic EC2 Scaling with SQS Backlog](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/auto-scaling-ec2-policy-based-on-sqs)  
-[Auto Scaling EC2 with WAF, Route 53 and RDS](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/auto-scalling-ec2-wat-53-rds)  
+[Auto Scaling EC2 with WAF, Route 53 and RDS](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/auto-scalling-ec2-waf-53-rds)  
 [Auto Scaling private EC2](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/auto-scalling-private-ec2)  
 [Deploy with Fargate ECS](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/fargate-ecs)  
 [Data Streaming with Kinesis, Lambda, Firehose and S3](https://github.com/felipesalvadordev/aws-iac-samples/tree/main/terraform/kinesis-firehose-s3)  
