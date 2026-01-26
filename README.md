@@ -36,6 +36,3 @@ All will be create with Infrastructure As Code tools such as Terraform.
 
 * **Automated Pipelines:** Built CI/CD workflows using **GitHub Actions** for automated testing, validation, and resource provisioning.
 
-
-Would you like me to create a **technical skills summary** (bulleted list of keywords) to go along with this for your "Skills" section?
-
