@@ -1,0 +1,56 @@
+name: 'Destroy EC2, RDS and Route53'
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read 
+
+env: 
+  AWS_REGION: us-east-1 
+  TF_VERSION: 1.2.6   
+
+jobs:
+  terraform-destroy:
+    name: infrastructure-destroy
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: arn:aws:iam::434605749312:role/aws-deployment-tf
+        role-session-name: destroy-session    
+    
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TF_VERSION }}      
+
+    - name: Terraform Init
+      run: terraform init
+
+    # Passo extra para limpar os buckets antes do destroy
+    - name: Empty S3 Buckets
+      run: |
+        FRONTEND_BUCKET=$(grep "frontend_bucket_name" staging.terraform.tfvars | cut -d'=' -f2 | tr -d '" ')
+        BACKEND_BUCKET=$(grep "backend_s3_bucket_name_application" staging.terraform.tfvars | cut -d'=' -f2 | tr -d '" ')
+        LAMBDA_BUCKET=$(grep "backend_s3_bucket_name" staging.terraform.tfvars | cut -d'=' -f2 | tr -d '" ')
+
+        echo "Emptying buckets: $FRONTEND_BUCKET, $BACKEND_BUCKET, $LAMBDA_BUCKET"
+        
+        aws s3 rm s3://$FRONTEND_BUCKET --recursive || echo "Bucket $FRONTEND_BUCKET it is already empty or does not exist."
+        aws s3 rm s3://$BACKEND_BUCKET --recursive || echo "Bucket $BACKEND_BUCKET it is already empty or does not exist."
+        aws s3 rm s3://$LAMBDA_BUCKET --recursive || echo "Bucket $LAMBDA_BUCKET it is already empty or does not exist."
+
+    - name: Terraform Destroy
+      run: terraform destroy --auto-approve --var-file=staging.terraform.tfvars
