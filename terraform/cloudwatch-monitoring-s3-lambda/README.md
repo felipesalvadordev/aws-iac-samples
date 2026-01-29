@@ -96,8 +96,6 @@ aws --endpoint-url=http://localhost:4566 cloudwatch list-metrics --namespace "Im
 ```
 
 ## Documentation
-
-- **Testing Guide**: See [TESTING.md](TESTING.md) for detailed testing instructions with examples for logs, metrics, and alarms
 - **Cost Estimates**: See [COST_ESTIMATE.md](COST_ESTIMATE.md) for AWS cost breakdown by scenario (dev, low production, high production)
 
 ## Tips for Development
