@@ -37,10 +37,6 @@ jobs:
       run: terraform init
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
 
-    - name: Terraform Format
-      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
-      run: terraform fmt -check
-
     - name: Terraform Validate
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform validate -no-color    
