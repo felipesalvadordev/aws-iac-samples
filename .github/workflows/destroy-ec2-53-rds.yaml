@@ -37,6 +37,7 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}      
 
     - name: Terraform Init
+      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform init
 
     # Passo extra para limpar os buckets antes do destroy
@@ -53,4 +54,5 @@ jobs:
         aws s3 rm s3://$LAMBDA_BUCKET --recursive || echo "Bucket $LAMBDA_BUCKET it is already empty or does not exist."
 
     - name: Terraform Destroy
+      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform destroy --auto-approve --var-file=staging.terraform.tfvars
