@@ -3,7 +3,7 @@ resource "aws_launch_template" "ec2_lt" {
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t2.micro" # Free tier eligible
   user_data     = base64encode(templatefile("${path.module}/templates/user_data.tpl", {}))
-  security_group_names = [aws_security_group.ec2_sg.name]
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 }
 
 data "aws_ami" "amazon_linux" {
