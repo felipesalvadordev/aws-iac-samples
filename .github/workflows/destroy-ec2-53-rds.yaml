@@ -25,7 +25,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-region: ${{ env.AWS_REGION }}
-        role-to-assume: arn:aws:iam::434605749312:role/aws-deployment-tf
+        role-to-assume: arn:aws:iam::805714761459:role/aws-deployment-tf
         role-session-name: destroy-session    
     
     - name: Checkout
