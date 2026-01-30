@@ -40,7 +40,6 @@ jobs:
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform init
 
-    # Passo extra para limpar os buckets antes do destroy
     - name: Empty S3 Buckets
       run: |
         FRONTEND_BUCKET=$(grep "frontend_bucket_name" staging.terraform.tfvars | cut -d'=' -f2 | tr -d '" ')
