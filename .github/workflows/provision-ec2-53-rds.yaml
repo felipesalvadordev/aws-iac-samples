@@ -34,8 +34,8 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}      
 
     - name: Terraform Init
-      run: terraform init
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
+      run: terraform init
 
     - name: Terraform Validate
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
@@ -46,5 +46,7 @@ jobs:
       run: terraform plan --var-file=staging.terraform.tfvars  
 
     - name: Terraform Apply
-      run: terraform apply --auto-approve --var-file=staging.terraform.tfvars  
+      # ADICIONE A LINHA ABAIXO PARA CORRIGIR O ERRO
+      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
+      run: terraform apply --auto-approve --var-file=staging.terraform.tfvars
       
