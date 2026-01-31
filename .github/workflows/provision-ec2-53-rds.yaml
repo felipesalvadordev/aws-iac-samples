@@ -14,6 +14,7 @@ jobs:
   terraform:
     name: infrastructure-staging
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     defaults:
       run:
@@ -51,7 +52,8 @@ jobs:
       run: terraform plan --var-file=staging.terraform.tfvars  
 
     - name: Terraform Apply
-      # ADICIONE A LINHA ABAIXO PARA CORRIGIR O ERRO
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform apply --auto-approve --var-file=staging.terraform.tfvars
+
+ 
       
