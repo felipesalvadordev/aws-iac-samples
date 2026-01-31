@@ -6,10 +6,12 @@ resource "aws_lb" "app_alb" {
   subnets            = [aws_subnet.public_a.id, aws_subnet.public_b.id]
 }
 
-resource "aws_lb_listener" "http" {
+resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.app_alb.arn
-  port              = 80
-  protocol          = "HTTP"
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08" # Update as needed
+  certificate_arn   = aws_acm_certificate.example_cert.arn
 
   default_action {
     type             = "forward"
