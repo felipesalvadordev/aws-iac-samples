@@ -8,6 +8,7 @@ permissions:
 env: 
   AWS_REGION: us-east-1 
   TF_VERSION: 1.2.6   
+  BUCKET_NAME: "my-terraform-state-805714761459"
 
 jobs:
   terraform:
@@ -35,7 +36,11 @@ jobs:
 
     - name: Terraform Init
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
-      run: terraform init
+      run: |
+          terraform init \
+            -backend-config="bucket=${{ env.BUCKET_NAME }}" \
+            -backend-config="key=staging/terraform.tfstate" \
+            -backend-config="region=${{ env.AWS_REGION }}"
 
     - name: Terraform Validate
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
