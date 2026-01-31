@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "main" {
-  name = "app.salvador.com"
+  name = "felipesalvador.com.br"
   lifecycle {
     prevent_destroy = false
   }
@@ -7,7 +7,7 @@ resource "aws_route53_zone" "main" {
 
 resource "aws_route53_record" "www" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "www"
+  name    = "www.felipesalvador.com.br"
   type    = "A"
   
   depends_on = [aws_route53_zone.main]

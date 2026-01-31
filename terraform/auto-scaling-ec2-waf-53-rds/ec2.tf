@@ -5,7 +5,7 @@ resource "aws_launch_template" "ec2_lt" {
   user_data     = base64encode(templatefile("${path.module}/templates/user_data.tpl", {}))
 
   network_interfaces {
-    associate_public_ip_address = false
+    associate_public_ip_address = true
     security_groups             = [aws_security_group.ec2_sg.id]
   }
 }
@@ -24,7 +24,7 @@ resource "aws_autoscaling_group" "ec2_asg" {
   max_size                  = 1
   min_size                  = 1
   desired_capacity          = 1
-  vpc_zone_identifier       = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+  vpc_zone_identifier = [aws_subnet.public_a.id, aws_subnet.public_b.id]
   launch_template {
     id      = aws_launch_template.ec2_lt.id
     version = "$Latest"
