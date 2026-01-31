@@ -16,6 +16,7 @@ resource "aws_db_instance" "rds_master" {
   publicly_accessible     = var.rds_conf.publicly_accessible
   multi_az                = var.rds_conf.multi_az
   backup_retention_period = var.rds_conf.backup_retention_period
+  skip_final_snapshot = true
 }
 
 resource "random_password" "root_password" {
