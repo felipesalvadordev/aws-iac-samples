@@ -16,7 +16,7 @@ The request first goes to AWS Route 53, which handles DNS resolution and directs
 DNS is configured in Route 53 to point the domain www.app.salvador.com directly to this load balancer.
 
 3. SSL/TLS Termination via AWS Certificate Manager  
-AWS Certificate Manager provides SSL/TLS certificates for secure communication between the client and the application (not used in this example to avoid domain registration costs).
+AWS Certificate Manager provides SSL/TLS certificates for secure communication between the client and the application.
 
 4. Traffic Filtering via AWS WAF  
 AWS Web Application Firewall (WAF) inspects incoming requests for security threats and filters malicious traffic.
