@@ -64,6 +64,6 @@ jobs:
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: |
         echo "Cancellation or failure detected. Initiating secure destruction."
-        terraform destroy -auto-approve
+        terraform destroy -auto-approve --var-file=staging.terraform.tfvars
 
       
