@@ -1,9 +1,14 @@
 resource "aws_launch_template" "ec2_lt" {
   name_prefix   = "ec2-lt-"
   image_id      = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro" # Free tier eligible
+  instance_type = "t3.micro" # Free tier eligible
   user_data     = base64encode(templatefile("${path.module}/templates/user_data.tpl", {}))
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+
+  network_interfaces {
+    associate_public_ip_address = false
+    security_groups             = [aws_security_group.ec2_sg.id]
+  }
 }
 
 data "aws_ami" "amazon_linux" {
@@ -17,7 +22,7 @@ data "aws_ami" "amazon_linux" {
 
 resource "aws_autoscaling_group" "ec2_asg" {
   name                      = "ec2-asg"
-  max_size                  = 2
+  max_size                  = 1
   min_size                  = 1
   desired_capacity          = 1
   vpc_zone_identifier       = [aws_subnet.private_a.id, aws_subnet.private_b.id]
