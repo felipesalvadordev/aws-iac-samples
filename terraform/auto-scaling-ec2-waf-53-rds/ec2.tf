@@ -3,7 +3,6 @@ resource "aws_launch_template" "ec2_lt" {
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t3.micro" # Free tier eligible
   user_data     = base64encode(templatefile("${path.module}/templates/user_data.tpl", {}))
-  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 
   network_interfaces {
     associate_public_ip_address = false
