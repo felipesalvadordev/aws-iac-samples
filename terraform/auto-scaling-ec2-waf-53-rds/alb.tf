@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "app_tg" {
   }
 }
 
-resource "aws_wafv2_web_acl_association" "waf_alb" {
-  resource_arn = aws_lb.app_alb.arn
-  web_acl_arn  = aws_wafv2_web_acl.waf.arn
-}
+# resource "aws_wafv2_web_acl_association" "waf_alb" {
+#   resource_arn = aws_lb.app_alb.arn
+#   web_acl_arn  = aws_wafv2_web_acl.waf.arn
+# }
