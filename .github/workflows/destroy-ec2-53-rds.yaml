@@ -1,7 +1,11 @@
 name: 'Destroy EC2, RDS and Route53'
 
 on:
-  workflow_dispatch: # Permite execução manual
+  workflow_dispatch: 
+
+env:
+  BUCKET_NAME: "my-terraform-state-805714761459"
+  AWS_REGION: "us-east-1"
 
 permissions:
   id-token: write
@@ -30,7 +34,11 @@ jobs:
           terraform_version: 1.2.6
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+                  terraform init \
+                    -backend-config="bucket=${{ env.BUCKET_NAME }}" \
+                    -backend-config="region=${{ env.AWS_REGION }}" \
+                    -backend-config="key=staging/terraform.tfstate"
 
       - name: Terraform Destroy
         run: terraform destroy --auto-approve --var-file=staging.terraform.tfvars
