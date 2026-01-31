@@ -1,57 +1,44 @@
 name: 'Destroy EC2, RDS and Route53'
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: 
+
+env:
+  BUCKET_NAME: "my-terraform-state-805714761459"
+  AWS_REGION: "us-east-1"
 
 permissions:
   id-token: write
-  contents: read 
-
-env: 
-  AWS_REGION: us-east-1 
-  TF_VERSION: 1.2.6   
+  contents: read
 
 jobs:
-  terraform-destroy:
-    name: infrastructure-destroy
+  destroy:
     runs-on: ubuntu-latest
-
     defaults:
       run:
-        shell: bash
-
+        working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
     steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-region: ${{ env.AWS_REGION }}
-        role-to-assume: arn:aws:iam::805714761459:role/aws-deployment-tf
-        role-session-name: destroy-session    
-    
-    - name: Checkout
-      uses: actions/checkout@v3
-      
-    - name: Setup terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: ${{ env.TF_VERSION }}      
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Terraform Init
-      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
-      run: terraform init
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::805714761459:role/aws-deployment-tf
+          role-session-name: destroy-session
 
-    - name: Empty S3 Buckets
-      run: |
-        FRONTEND_BUCKET=$(grep "frontend_bucket_name" staging.terraform.tfvars | cut -d'=' -f2 | tr -d '" ')
-        BACKEND_BUCKET=$(grep "backend_s3_bucket_name_application" staging.terraform.tfvars | cut -d'=' -f2 | tr -d '" ')
-        LAMBDA_BUCKET=$(grep "backend_s3_bucket_name" staging.terraform.tfvars | cut -d'=' -f2 | tr -d '" ')
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.2.6
 
-        echo "Emptying buckets: $FRONTEND_BUCKET, $BACKEND_BUCKET, $LAMBDA_BUCKET"
-        
-        aws s3 rm s3://$FRONTEND_BUCKET --recursive || echo "Bucket $FRONTEND_BUCKET it is already empty or does not exist."
-        aws s3 rm s3://$BACKEND_BUCKET --recursive || echo "Bucket $BACKEND_BUCKET it is already empty or does not exist."
-        aws s3 rm s3://$LAMBDA_BUCKET --recursive || echo "Bucket $LAMBDA_BUCKET it is already empty or does not exist."
+      - name: Terraform Init
+        run: |
+                  terraform init \
+                    -backend-config="bucket=${{ env.BUCKET_NAME }}" \
+                    -backend-config="region=${{ env.AWS_REGION }}" \
+                    -backend-config="key=staging/terraform.tfstate"
 
-    - name: Terraform Destroy
-      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
-      run: terraform destroy --auto-approve --var-file=staging.terraform.tfvars
+      - name: Terraform Destroy
+        run: terraform destroy --auto-approve --var-file=staging.terraform.tfvars
