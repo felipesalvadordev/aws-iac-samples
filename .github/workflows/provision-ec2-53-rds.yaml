@@ -55,5 +55,10 @@ jobs:
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform apply --auto-approve --var-file=staging.terraform.tfvars
 
- 
+    - name: Cleanup Resources on Cancel or Failure
+      if: always() && (cancelled() || failure())
+      run: |
+        echo "Cancellation or failure detected. Initiating secure destruction."
+        terraform destroy -auto-approve
+
       
