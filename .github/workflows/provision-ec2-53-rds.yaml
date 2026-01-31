@@ -43,10 +43,6 @@ jobs:
             -backend-config="key=staging/terraform.tfstate" \
             -backend-config="region=${{ env.AWS_REGION }}"
 
-    - name: Show Remote State
-      run: terraform state list
-      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
-
     - name: Terraform Validate
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform validate -no-color    
@@ -58,6 +54,10 @@ jobs:
     - name: Terraform Apply
       working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
       run: terraform apply --auto-approve --var-file=staging.terraform.tfvars
+
+    - name: Show Remote State
+      working-directory: ./terraform/auto-scaling-ec2-waf-53-rds
+      run: terraform state list
 
     - name: Cleanup Resources on Cancel or Failure
       if: always() && (cancelled() || failure())
